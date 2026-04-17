@@ -2417,4 +2417,17 @@ public class CraftEventFactory {
         }
         return true;
     }
+
+    public static boolean handleFluidFlowEvent(Level level, BlockPos pos, Direction direction) {
+        org.bukkit.block.Block block = CraftBlock.at(level, pos);
+        io.papermc.paper.event.block.FluidFlowEvent event = new io.papermc.paper.event.block.FluidFlowEvent(block, org.bukkit.craftbukkit.block.CraftBlock.notchToBlockFace(direction));
+        return event.callEvent();
+    }
+
+    public static boolean handleBlockTeleportEvent(Level level, BlockPos pos, BlockPos to) {
+        org.bukkit.block.Block block = CraftBlock.at(level, pos);
+        org.bukkit.block.Block toBlock = CraftBlock.at(level, to);
+        io.papermc.paper.event.block.BlockTeleportEvent event = new io.papermc.paper.event.block.BlockTeleportEvent(block, toBlock);
+        return event.callEvent();
+    }
 }

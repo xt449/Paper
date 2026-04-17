@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/DragonEggBlock.java
 +++ b/net/minecraft/world/level/block/DragonEggBlock.java
-@@ -61,6 +_,16 @@
+@@ -61,6 +_,20 @@
                  && !level.getBlockState(testPos.below()).isAir()
                  && worldBorder.isWithinBounds(testPos)
                  && level.isInsideBuildHeight(testPos)) {
@@ -8,6 +8,10 @@
 +                org.bukkit.block.Block from = org.bukkit.craftbukkit.block.CraftBlock.at(level, pos);
 +                org.bukkit.block.Block to = org.bukkit.craftbukkit.block.CraftBlock.at(level, testPos);
 +                org.bukkit.event.block.BlockFromToEvent event = new org.bukkit.event.block.BlockFromToEvent(from, to);
++                // Paper start - Split BlockFromToEvent
++                final boolean eventResult = org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockTeleportEvent(level, pos, testPos);
++                event.setCancelled(!eventResult); // Forward result to legacy event
++                // Paper end - Split BlockFromToEvent
 +                if (!event.callEvent()) {
 +                    return;
 +                }

@@ -1,12 +1,16 @@
 --- a/net/minecraft/world/level/material/FlowingFluid.java
 +++ b/net/minecraft/world/level/material/FlowingFluid.java
-@@ -121,6 +_,15 @@
+@@ -121,6 +_,19 @@
                  Fluid newBelowFluidType = newBelowFluid.getType();
                  if (belowFluid.canBeReplacedWith(level, belowPos, newBelowFluidType, Direction.DOWN)
                      && canHoldSpecificFluid(level, belowPos, belowState, newBelowFluidType)) {
 +                    // CraftBukkit start
 +                    org.bukkit.block.Block source = org.bukkit.craftbukkit.block.CraftBlock.at(level, pos);
 +                    org.bukkit.event.block.BlockFromToEvent event = new org.bukkit.event.block.BlockFromToEvent(source, org.bukkit.block.BlockFace.DOWN);
++                    // Paper start - Split BlockFromToEvent
++                    final boolean eventResult = org.bukkit.craftbukkit.event.CraftEventFactory.handleFluidFlowEvent(level, pos, Direction.DOWN);
++                    event.setCancelled(!eventResult); // Forward result to legacy event
++                    // Paper end - Split BlockFromToEvent
 +                    level.getCraftServer().getPluginManager().callEvent(event);
 +
 +                    if (event.isCancelled()) {
@@ -16,7 +20,7 @@
                      this.spreadTo(level, belowPos, belowState, Direction.DOWN, newBelowFluid);
                      if (this.sourceNeighborCount(level, pos) >= 3) {
                          this.spreadToSides(level, pos, fluidState, state);
-@@ -149,7 +_,18 @@
+@@ -149,7 +_,22 @@
                  Direction spread = entry.getKey();
                  FluidState newNeighborFluid = entry.getValue();
                  BlockPos neighborPos = pos.relative(spread);
@@ -26,6 +30,10 @@
 +                // CraftBukkit start
 +                org.bukkit.block.Block source = org.bukkit.craftbukkit.block.CraftBlock.at(level, pos);
 +                org.bukkit.event.block.BlockFromToEvent event = new org.bukkit.event.block.BlockFromToEvent(source, org.bukkit.craftbukkit.block.CraftBlock.notchToBlockFace(spread));
++                // Paper start - Split BlockFromToEvent
++                final boolean eventResult = org.bukkit.craftbukkit.event.CraftEventFactory.handleFluidFlowEvent(level, pos, spread);
++                event.setCancelled(!eventResult); // Forward result to legacy event
++                // Paper end - Split BlockFromToEvent
 +                level.getCraftServer().getPluginManager().callEvent(event);
 +
 +                if (event.isCancelled()) {

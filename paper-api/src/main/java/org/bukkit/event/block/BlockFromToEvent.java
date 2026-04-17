@@ -13,7 +13,10 @@ import org.jetbrains.annotations.NotNull;
  * <p>
  * If this event is cancelled, the block will not move (the liquid
  * will not flow).
+ *
+ * @deprecated use {@link io.papermc.paper.event.block.BlockTeleportEvent} or {@link io.papermc.paper.event.block.FluidFlowEvent}
  */
+@Deprecated
 public class BlockFromToEvent extends BlockEvent implements Cancellable {
 
     private static final HandlerList HANDLER_LIST = new HandlerList();
