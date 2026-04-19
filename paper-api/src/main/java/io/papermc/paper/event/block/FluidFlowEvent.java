@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Called when a fluid attempts to flow in the given direction.
  * <p>
- * If this event is cancelled, the liquid will not flow.
+ * If this event is cancelled, the fluid will not flow.
  */
 public class FluidFlowEvent extends BlockEvent implements Cancellable {
 
