@@ -9,10 +9,10 @@
 +                org.bukkit.block.Block to = org.bukkit.craftbukkit.block.CraftBlock.at(level, testPos);
 +                org.bukkit.event.block.BlockFromToEvent event = new org.bukkit.event.block.BlockFromToEvent(from, to);
 +                // Paper start - Split BlockFromToEvent
-+                final boolean eventResult = org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockTeleportEvent(level, pos, testPos);
-+                event.setCancelled(!eventResult); // Forward result to legacy event
-+                // Paper end - Split BlockFromToEvent
-+                if (!event.callEvent()) {
++                event.callEvent();
++
++                if (!org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockTeleportEvent(level, pos, testPos, event.isCancelled())) {
++                    // Paper end - Split BlockFromToEvent
 +                    return;
 +                }
 +
