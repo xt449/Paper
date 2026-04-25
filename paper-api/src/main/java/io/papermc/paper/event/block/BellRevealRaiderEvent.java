@@ -6,7 +6,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.BlockEvent;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Called when a {@link Raider} is revealed by a bell.
@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
  * @deprecated use {@link org.bukkit.event.block.BellResonateEvent}
  */
 @Deprecated(since = "1.19.4")
+@NullMarked
 public class BellRevealRaiderEvent extends BlockEvent implements Cancellable {
 
     private static final HandlerList HANDLER_LIST = new HandlerList();
@@ -22,7 +23,7 @@ public class BellRevealRaiderEvent extends BlockEvent implements Cancellable {
     private boolean cancelled;
 
     @ApiStatus.Internal
-    public BellRevealRaiderEvent(@NotNull Block bell, @NotNull Raider raider) {
+    public BellRevealRaiderEvent(final Block bell, final Raider raider) {
         super(bell);
         this.raider = raider;
     }
@@ -32,7 +33,6 @@ public class BellRevealRaiderEvent extends BlockEvent implements Cancellable {
      *
      * @return The raider
      */
-    @NotNull
     public Raider getEntity() {
         return this.raider;
     }
@@ -48,16 +48,16 @@ public class BellRevealRaiderEvent extends BlockEvent implements Cancellable {
      * This does not cancel the particle effects shown on the bell, only the entity.
      */
     @Override
-    public void setCancelled(boolean cancel) {
+    public void setCancelled(final boolean cancel) {
         this.cancelled = cancel;
     }
 
     @Override
-    public @NotNull HandlerList getHandlers() {
+    public HandlerList getHandlers() {
         return HANDLER_LIST;
     }
 
-    public static @NotNull HandlerList getHandlerList() {
+    public static HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
 }
